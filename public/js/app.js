@@ -1929,11 +1929,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      notificationsItems: []
+    };
+  },
+  mounted: function mounted() {
+    this.loadNotifications();
+  },
   computed: {
     notifications: function notifications() {
-      return [1, 2, 3, 4];
+      return this.notificationsItems;
+    }
+  },
+  methods: {
+    loadNotifications: function loadNotifications() {
+      var _this = this;
+
+      axios.get('/notifications').then(function (response) {
+        _this.notificationsItems = response.data.notifications;
+        console.log('response', response.data.notifications);
+      });
     }
   }
 });
@@ -37594,25 +37611,31 @@ var render = function() {
           staticClass: "dropdown-menu dropdown-menu-right",
           attrs: { "aria-labelledby": "navbarDropdown" }
         },
-        _vm._l(_vm.notifications, function(notification) {
-          return _c(
-            "a",
-            {
-              key: notification,
-              staticClass: "dropdown-item",
-              attrs: { href: "#" }
-            },
-            [
-              _vm._v(
-                "\n                " + _vm._s(notification) + "\n            "
-              )
-            ]
-          )
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _vm._m(1)
+        [
+          _vm._l(_vm.notifications, function(notification) {
+            return _c(
+              "a",
+              {
+                key: notification.id,
+                staticClass: "dropdown-item",
+                attrs: { href: "#" }
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(notification.data.comment.title) +
+                    "\n            "
+                )
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+            _vm._v("\n                Clear notifications\n            ")
+          ])
+        ],
+        2
+      )
     ])
   ])
 }
@@ -37637,23 +37660,6 @@ var staticRenderFns = [
       [
         _vm._v("\n            Notifications "),
         _c("span", { staticClass: "caret" })
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "dropdown-menu dropdown-menu-right",
-        attrs: { "aria-labelledby": "navbarDropdown" }
-      },
-      [
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _vm._v("\n                Clear notifications\n            ")
-        ])
       ]
     )
   }

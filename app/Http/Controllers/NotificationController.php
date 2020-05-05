@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +28,13 @@ class NotificationController extends Controller
     public function create()
     {
         //
+    }
+
+    public function notifications(Request $request)
+    {
+        $notifications = $request->user()->notifications;
+
+        return response()->json(compact('notifications'));
     }
 
     /**
