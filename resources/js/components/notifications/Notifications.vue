@@ -14,7 +14,7 @@
                     :notification="notification">
 
                 </showNotification>
-                <a class="dropdown-item" href="#" >
+                <a class="dropdown-item" href="#" v-on:click.prevent="markAllAsRead">
                     Clear notifications
                 </a>
             </div>
@@ -33,7 +33,11 @@
                 return this.$store.state.notifications.items;
             }
         },
-
+        methods: {
+            markAllAsRead(){
+                this.$store.dispatch('markAllAsRead');
+            }
+        }
 
     }
 </script>

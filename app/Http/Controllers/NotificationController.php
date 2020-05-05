@@ -47,6 +47,12 @@ class NotificationController extends Controller
 
     }
 
+
+    public function markedAllAsRead(Request $request)
+    {
+        $request->user()->unreadNotifications->markAsRead();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

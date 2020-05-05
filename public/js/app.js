@@ -1940,6 +1940,11 @@ __webpack_require__.r(__webpack_exports__);
     notifications: function notifications() {
       return this.$store.state.notifications.items;
     }
+  },
+  methods: {
+    markAllAsRead: function markAllAsRead() {
+      this.$store.dispatch('markAllAsRead');
+    }
   }
 });
 
@@ -37665,9 +37670,20 @@ var render = function() {
             })
           }),
           _vm._v(" "),
-          _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-            _vm._v("\n                Clear notifications\n            ")
-          ])
+          _c(
+            "a",
+            {
+              staticClass: "dropdown-item",
+              attrs: { href: "#" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.markAllAsRead($event)
+                }
+              }
+            },
+            [_vm._v("\n                Clear notifications\n            ")]
+          )
         ],
         2
       )
@@ -51219,6 +51235,9 @@ __webpack_require__.r(__webpack_exports__);
       state.items = state.items.filter(function (notification) {
         return notification.id !== idNotification;
       }); //state.items.splice(index, 1);
+    },
+    MARK_ALL_AS_READ: function MARK_ALL_AS_READ(state) {
+      state.items = [];
     }
   },
   actions: {
@@ -51235,6 +51254,14 @@ __webpack_require__.r(__webpack_exports__);
       axios.put('/notifications-read', param).then(function (response) {
         console.log(response);
         context.commit('MARK_AS_READ', param.id);
+      });
+    },
+    markAllAsRead: function markAllAsRead(context) {
+      axios.put('/notifications-read-all').then(function (response) {
+        console.log('response', response);
+        context.commit("MARK_ALL_AS_READ");
+      }, function (errors) {
+        console.error('errors', errors);
       });
     }
   }

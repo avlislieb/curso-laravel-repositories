@@ -11,6 +11,9 @@ export default {
         MARK_AS_READ (state, idNotification){
             state.items = state.items.filter( notification => notification.id !== idNotification);
             //state.items.splice(index, 1);
+        },
+        MARK_ALL_AS_READ(state){
+            state.items = [];
         }
     },
 
@@ -34,6 +37,19 @@ export default {
                     response => {
                         console.log(response);
                         context.commit('MARK_AS_READ', param.id)
+                    }
+                )
+        },
+
+        markAllAsRead(context){
+            axios.put('/notifications-read-all')
+                .then(
+                    response =>{
+                        console.log('response', response);
+                        context.commit("MARK_ALL_AS_READ");
+                    },
+                    errors => {
+                        console.error('errors', errors);
                     }
                 )
         }
