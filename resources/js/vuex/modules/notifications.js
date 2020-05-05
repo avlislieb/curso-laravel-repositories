@@ -23,5 +23,14 @@ export default {
                     }
                 );
         },
+        markAsRead(contex, param){
+            console.log(param, 'param');
+            axios.put('notifications-read', param)
+                .then(
+                    response => {
+                        console.log(response)
+                    }
+                )
+        }
     }
 }

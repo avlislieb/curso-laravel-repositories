@@ -1962,12 +1962,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "showNotification",
   props: ['notification'],
   computed: {
     comment: function comment() {
       return this.notification.data.comment;
+    }
+  },
+  methods: {
+    markAsRead: function markAsRead(idNotification) {
+      this.$store.dispatch('markAsRead', {
+        id: idNotification
+      });
     }
   }
 });
@@ -37691,6 +37699,18 @@ var render = function() {
   return _c("div", [
     _vm.comment.user !== undefined
       ? _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+          _c(
+            "span",
+            {
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.markAsRead(_vm.notification.id)
+                }
+              }
+            },
+            [_vm._v("Lida")]
+          ),
           _vm._v(
             "\n        " +
               _vm._s(_vm.comment.user.name) +
@@ -51203,6 +51223,12 @@ __webpack_require__.r(__webpack_exports__);
           return item.data.comment.user !== undefined;
         });
         context.commit('LOAD_NOTIFICATIONS', responseNotification);
+      });
+    },
+    markAsRead: function markAsRead(contex, param) {
+      console.log(param, 'param');
+      axios.put('notifications-read', param).then(function (response) {
+        console.log(response);
       });
     }
   }
