@@ -60,7 +60,7 @@ class PostComment extends Notification implements ShouldQueue
     {
         return [
             'comment' => $this->comment
-        ];
+        ]
     }
 
     /**
