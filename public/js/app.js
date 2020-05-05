@@ -51214,6 +51214,11 @@ __webpack_require__.r(__webpack_exports__);
   mutations: {
     LOAD_NOTIFICATIONS: function LOAD_NOTIFICATIONS(state, notifications) {
       state.items = notifications;
+    },
+    MARK_AS_READ: function MARK_AS_READ(state, idNotification) {
+      state.items = state.items.filter(function (notification) {
+        return notification.id !== idNotification;
+      }); //state.items.splice(index, 1);
     }
   },
   actions: {
@@ -51225,10 +51230,11 @@ __webpack_require__.r(__webpack_exports__);
         context.commit('LOAD_NOTIFICATIONS', responseNotification);
       });
     },
-    markAsRead: function markAsRead(contex, param) {
+    markAsRead: function markAsRead(context, param) {
       console.log(param, 'param');
-      axios.put('notifications-read', param).then(function (response) {
+      axios.put('/notifications-read', param).then(function (response) {
         console.log(response);
+        context.commit('MARK_AS_READ', param.id);
       });
     }
   }
