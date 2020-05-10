@@ -9,6 +9,11 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script>
+        window.Laravel = {!! json_encode([
+            'user' => auth()->check() ? auth()->user()->id : ''
+        ]) !!}
+    </script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
