@@ -68,14 +68,17 @@ class PostComment extends Notification implements ShouldQueue
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return array
+     * @return BroadcastMessage
      */
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage ([
             'id' => $this->id,
             'read_at' => null,
-            'data' => ['comment' => $this->comment->load('user')]
+            'data' => [
+                'comment' => $this->comment->load('user'),
+                'linkPost' => route('posts.show', $this->comment->post_id)
+            ]
         ]);
     }
 }
